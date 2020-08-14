@@ -1,18 +1,13 @@
-# Journal Change Notifier
-
-Journal Change Notifier is a Redmine plugin that notifies journal
-change by e-mail.
-
-## License
-
-GPL 2 or later. See LICENSE for details.
-
 # Note Change Notifier
 
 Note Change Notifier is a Redmine plugin that notifies note
 change of contact/deal in redmine_contacts' plugin by e-mail. Note Change Notifier
 is based on (modified) Journal Change Notifier. Plugin tested on redmine 
 version 3.4.2.
+
+## License
+
+GPL 2 or later. See LICENSE for details.
 
 # Installation of note_change_notifier plugin
 
@@ -66,7 +61,3 @@ $ sudo /etc/init.d/apache2 restart
 ...
 ...
 </pre>
-
-# Plugin's issue in internal redmine
-
-https://intranet.instigatemobile.com/issues/12990

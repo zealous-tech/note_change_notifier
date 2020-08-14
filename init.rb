@@ -1,10 +1,9 @@
 Redmine::Plugin.register :note_change_notifier do
   name "Note Change Notifier plugin"
-  author "Kouhei Sutou"
+  author "Suren Grigoryan"
   description "Notify note change by e-mail"
   version "1.0.0"
-  url "https://github.com/clear-code/redmine-plugin-journal-change-notifier"
-  author_url "https://github.com/kou/"
+  url "https://github.com/InstigateMobileCJSC/note_change_notifier"
 end
 
 require "diff/lcs"
