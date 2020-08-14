@@ -1,0 +1,20 @@
+<style>
+  span.delete { background-color: #ff9999; }
+  span.insert { background-color: #99ff99; }
+</style>
+
+<%= l(:label_crm_note_for) %>: <%= link_to(h(@note.source.name), @note_url) %>
+<%=h @note.author %>
+
+<hr />
+  <!-- <pre><%#= NoteChangeDiffer.new(@note).diff %></pre> -->
+  <pre><code class="diff"><%= NoteChangeDiffer.new(@note).diff.html_safe %></code></pre>
+<hr />
+<%= render :partial => 'mailer/crm_note_add',
+           :formats => [:html],
+           :locals => {
+             :note => @note,
+             :user => @user, # For Redmine 4 or later
+             :users => @users, # For Redmine 3 or ealier
+             :note_url => @note_url
+           } %>

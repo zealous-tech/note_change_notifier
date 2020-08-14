@@ -1,0 +1,16 @@
+<%= l(:label_crm_note_for) %>: <%= link_to(h(@note.source.name), @note_url) %>
+<%=h @note.author %>
+
+============================================================
+<%= NoteChangeDiffer.new(@note).diff.html_safe %>
+============================================================
+
+----------------------------------------
+<%= render :partial => 'mailer/crm_note_add',
+           :formats => [:html],
+           :locals => {
+             :note => @note,
+             :user => @user, # For Redmine 4 or later
+             :users => @users, # For Redmine 3 or ealier
+             :note_url => @note_url
+           } %>

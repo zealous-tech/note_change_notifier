@@ -1,0 +1,7 @@
+<h1><%= link_to("[#{@note.source.project.name} - #{@note.source_type} ##{@note.source.id}] #{l(:label_crm_note_for)} #{@note.source.name}", @note_url) %></h1>
+
+<!-- "[#{note.source.project.name} - #{note.source_type}  ##{note.source.id}] #{l(:label_crm_note_for)} #{note.source.name}" -->
+
+<em><%=h @note.author %></em>
+
+<%= textilizable(@note, :content, :only_path => false) %>
