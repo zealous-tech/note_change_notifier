@@ -3,7 +3,7 @@ Redmine::Plugin.register :note_change_notifier do
   author "Suren Grigoryan"
   description "Notify note change by e-mail"
   version "1.0.0"
-  url "https://github.com/InstigateMobileCJSC/note_change_notifier"
+  url "https://github.com/InstigateMobile/note_change_notifier"
   author_url "https://github.com/InstigateMobile/"
 end
 
