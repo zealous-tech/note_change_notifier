@@ -1,8 +1,8 @@
 Redmine::Plugin.register :note_change_notifier do
   name "Note Change Notifier plugin"
   author "Suren Grigoryan"
-  description "Notify note change by e-mail"
-  version "1.0.0"
+  description "Notify deal note change by e-mail"
+  version "1.0.1"
   url "https://github.com/InstigateMobile/note_change_notifier"
   author_url "https://github.com/InstigateMobile/"
 end
@@ -13,6 +13,25 @@ require "diff/lcs/hunk"
 class NoteChangeMailer < Mailer
   class << self
     def deliver_note_edit(changer, note)
+      if Redmine::VERSION::MAJOR >= 4
+        deliver_note_edit_latest(changer, note)
+      else
+        deliver_note_edit_v3(changer, note)
+      end
+    end
+
+    private
+    def deliver_note_edit_latest(changer, note)
+      @note = note
+      users = (note.source.recipients + note.source.watcher_recipients).uniq
+      users.each do |user|
+        user_model = User.find_by_mail(user)
+        mail = note_edit(changer, note, to: user_model)
+        mail.deliver
+      end
+    end
+
+    def deliver_note_edit_v3(changer, note)
       @note = note
       recipients = note.source.recipients
       to = recipients
@@ -25,7 +44,41 @@ class NoteChangeMailer < Mailer
     end
   end
 
-  def note_edit(changer, note, to_users, cc_users)
+  def note_edit(changer, note, options)
+    if options.key?(:cc)
+      note_edit_v3(changer, note, options[:to], options[:cc])
+    else
+      note_edit_latest(changer, note, options[:to])
+    end
+  end
+
+  private
+  def note_edit_latest(changer, note, user)
+    redmine_headers 'Project' => note.source.project.identifier,
+                    'X-Notable-Id' => note.source.id,
+                    'X-Note-Id' => note.id
+    @author = note.author
+    @changer = changer
+    message_id note
+    @users = (note.source.recipients + note.source.watcher_recipients).uniq
+
+    message_id note
+    references note
+    @author = changer
+    @changer = changer
+    s = "[#{note.source.project.name} - #{note.source_type}  ##{note.source.id}] #{l(:label_crm_note_for)} #{note.source.name}"
+    @note = note
+    @user = user
+    @users = [user]
+    @note_url = url_for(:controller => 'notes',
+                         :action => 'show',
+                         :id => note,
+                         :anchor => "change-#{note.id}")
+    mail(:to => user.mail,
+         :subject => s)
+  end
+
+  def note_edit_v3(changer, note, to_users, cc_users)
     redmine_headers 'Project' => note.source.project.identifier,
                     'X-Notable-Id' => note.source.id,
                     'X-Note-Id' => note.id
