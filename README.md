@@ -3,7 +3,7 @@
 Note Change Notifier is a Redmine plugin that notifies note
 change of contact/deal in redmine_contacts' plugin by e-mail. Note Change Notifier
 is based on (modified) Journal Change Notifier. Plugin tested on redmine 
-version 3.4.2.
+version 3.4.2 and 4.2.2
 
 ## License
 
